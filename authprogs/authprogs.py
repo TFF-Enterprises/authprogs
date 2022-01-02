@@ -290,19 +290,18 @@ class AuthProgs(object):  # pylint: disable-msg=R0902
             allow_from = [allow_from]
 
         def ipnet(addr):
-            addr = unicode(addr)
-            if addr.lower() in ('*', 'any'):
-                addr = '0.0.0.0/0'
+            uaddr = unicode(addr)
+            if uaddr.lower() in ('*', 'any'):
+                uaddr = '0.0.0.0/0'
             # try to resolve the name first
             try:
-                resolved = socket.gethostbyname(addr)
-                self.logdebug('resolved {} to {}\n'.format(addr, resolved))
-                addr = resolved
+                uaddr = unicode(socket.gethostbyname(addr))
+                self.logdebug('resolved {} to {}\n'.format(addr, uaddr))
             except socket.gaierror:
                 # it didn't resolve so just use it as is
                 pass
             try:
-                return ipaddress.ip_network(addr, strict=False)
+                return ipaddress.ip_network(uaddr, strict=False)
             except ValueError:
                 return None
 
