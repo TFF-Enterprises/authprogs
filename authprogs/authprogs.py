@@ -298,6 +298,7 @@ class AuthProgs(object):  # pylint: disable-msg=R0902
                 addr = socket.gethostbyname(addr)
             except socket.gaierror:
                 # it didn't resolve so just use it as is
+                pass
             try:
                 return ipaddress.ip_network(addr, strict=False)
             except ValueError:
