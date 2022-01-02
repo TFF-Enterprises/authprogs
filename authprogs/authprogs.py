@@ -32,6 +32,7 @@ import os
 import pprint
 import re
 import shutil
+import socket
 import subprocess
 import sys
 import textwrap
@@ -292,6 +293,11 @@ class AuthProgs(object):  # pylint: disable-msg=R0902
             addr = unicode(addr)
             if addr.lower() in ('*', 'any'):
                 addr = '0.0.0.0/0'
+            # try to resolve the name first
+            try:
+                addr = socket.gethostbyname(addr)
+            except socket.gaierror:
+                # it didn't resolve so just use it as is
             try:
                 return ipaddress.ip_network(addr, strict=False)
             except ValueError:
