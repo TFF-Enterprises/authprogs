@@ -297,9 +297,7 @@ class AuthProgs(object):  # pylint: disable-msg=R0902
             try:
                 uaddr = unicode(socket.gethostbyname(addr))
                 self.logdebug('resolved {} to {}\n'.format(addr, uaddr))
-            except Exception as ex:
-                template = "An exception of type {0} occurred. Arguments:\n{1!r}"
-                self.logdebug(template.format(type(ex).__name__, ex.args))
+            except socket.gaierror:
                 # it didn't resolve so just use it as is
                 pass
             try:
