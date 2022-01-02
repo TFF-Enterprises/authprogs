@@ -295,7 +295,9 @@ class AuthProgs(object):  # pylint: disable-msg=R0902
                 addr = '0.0.0.0/0'
             # try to resolve the name first
             try:
-                addr = socket.gethostbyname(addr)
+                resolved = socket.gethostbyname(addr)
+                self.logdebug('resolved {} to {}\n'.format(addr, resolved))
+                addr = resolved
             except socket.gaierror:
                 # it didn't resolve so just use it as is
                 pass
