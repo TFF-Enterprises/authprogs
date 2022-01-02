@@ -297,12 +297,15 @@ class AuthProgs(object):  # pylint: disable-msg=R0902
             try:
                 uaddr = unicode(socket.gethostbyname(addr))
                 self.logdebug('resolved {} to {}\n'.format(addr, uaddr))
-            except socket.gaierror:
+            except Exception as ex:
+                template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+                self.logdebug(template.format(type(ex).__name__, ex.args))
                 # it didn't resolve so just use it as is
                 pass
             try:
                 return ipaddress.ip_network(uaddr, strict=False)
             except ValueError:
+                self.logdebug('address {} is not an ip network'.format(uaddr))
                 return None
 
         allow_from = [ipnet(x) for x in allow_from]
